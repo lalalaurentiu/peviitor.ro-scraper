@@ -7,32 +7,24 @@ from selenium.webdriver.common.keys import Keys
 from time import sleep
 import urllib.parse
 import json
-import re
+
 
 urls = [
     "https://career.luxoft.com",
     "https://www.profi.ro/rezultate-cautare-cariere/",
     "https://careers.endava.com",
     "http://www.adecco.ro/jobs/",
-    "https://cariere.lidl.ro/", # nu functioneaza
+    # "https://cariere.lidl.ro/", # nu functioneaza
     "https://veeam.wd3.myworkdayjobs.com/Veeam/"
 ]
 
-url = urls[2]
+url = urls[4]
 
-cokiesExpresions = ['accept', 'gdpr', "acord", "allow", "all" , "alert"]
+cokiesExpresions = ['accept', 'gdpr', "acord", "allow"]
 
 buttons = [
-    # "button[@type=",
-    # "input[@type=",
-    # "button[contains(@id, ",
-    # "button[contains(@class, ",
-    "Button[contains(@*, ",
-    # "input[contains(@id, ",
-    # "input[contains(@class, ",
+    "button[contains(@*, ",
     "input[contains(@*, ",
-    # "a[contains(@id, ",
-    # "a[contains(@class, ",
     "a[contains(@*, ",
 ]
 
@@ -94,62 +86,48 @@ searchKeywords = ["search", "cautare", "find", "gaseste"]
 searchAllKeywords = searchKeywords + list(map(capitalizeWord, searchKeywords))
 print(searchAllKeywords)
 
-for i in searchAllKeywords:
-    search = check_exists_by_xpath(f"//input[contains(@placeholder, '{i}')]", driver)
-    if search:
-        print("found search")
-        print(search.get_attribute("outerHTML"))
-        search.send_keys("Romania")
-        search.send_keys(Keys.RETURN)
-        break
+# for i in searchAllKeywords:
+#     search = check_exists_by_xpath(f"//input[contains(@placeholder, '{i}')]", driver)
+#     if search:
+#         print("found search")
+#         print(search.get_attribute("outerHTML"))
+#         search.send_keys("Romania")
+#         search.send_keys(Keys.RETURN)
+#         break
+
+sleep(3)
+
+# Bucata de cod care face click pe butoanele de submit
+# nu functioneaza
+
+try:
+    button = driver.find_elements(By.XPATH, "//button[@type='submit']")
+
+    if button:
+        
+        for i in button:
+            if i and i.is_displayed():
+                print(i.get_attribute("outerHTML"))
+                driver.execute_script("arguments[0].click();", i)
+                break
+except Exception as e:
+    print(e)
+    pass
+
+# try:
+#     for keyword in ["search", "Search"]:
+#         button = driver.find_element(By.XPATH, "//a[contains(@*, 'search')]")
+#         print(button.get_attribute("outerHTML"))
+#         if button and button.is_displayed():
+#             print("found button")
+#             driver.execute_script("arguments[0].click();", button)
+# except Exception as e:
+#     print(e)
+#     pass
 
 sleep(10)
 
-
-# try:
-#     button = driver.find_elements(By.XPATH, "//button[@type='submit']")
-#     driver.execute_script("arguments[0].click();", button[0])
-# except:
-#     pass
-
-# try:
-#     button = driver.find_elements(By.XPATH, "//input[@type='submit']")
-#     driver.execute_script("arguments[0].click();", button[0])
-# except:
-#     pass
-
-# try:
-#     button = driver.find_elements(By.XPATH, "//button[contains(@id, 'search')]")
-#     driver.execute_script("arguments[0].click();", button[0])
-# except:
-#     pass
-
-# try:
-#     button = driver.find_elements(By.XPATH, "//button[contains(@class, 'search')]")
-#     driver.execute_script("arguments[0].click();", button[0])
-# except:
-#     pass
-
 # sleep(2)
-
-# # search = check_exists_by_xpath("//input[contains(@placeholder, 'earch')]")
-# # if search:
-# #     search.send_keys("Romania")
-# #     search.send_keys(Keys.RETURN)
-
-# #     sleep(3)
-
-# # search = check_exists_by_xpath("//input[contains(@class, 'earch')]")
-# # if search:
-# #     search.send_keys("Romania")
-# #     search.send_keys(Keys.RETURN)
-
-# #     sleep(3)
-
-
-
-
-
 
 # paginagtionslst = []
 

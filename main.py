@@ -143,6 +143,7 @@ with open("sites.json") as f:
                         f.write(urllib.parse.unquote(i.get_attribute("href")) + "...." + i.text.strip() +"\n")
                 
                 driver.back()
+                sleep(2)
 
             sleep(5)
             driver.close()

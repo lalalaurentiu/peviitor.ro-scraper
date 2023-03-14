@@ -1,13 +1,19 @@
 from googlesearch import search
-keyword = "cariera"
-lst = search(keyword, lang="ro", num_results=100 )
+keyword = "careers"
+lst = search(keyword, lang="ro", num_results=10 )
 import json
 
 sites = dict()
 
 for i in lst:
-    url = i.split("https://")[1].split("/")[0].split(".")
-    domain = i.split("https://")[1].split(".")[1]
+    print(i)
+    
+    try:
+        url = i.split("https://")[1].split("/")[0].split(".")
+        domain = i.split("https://")[1].split("/")[0]
+    except:
+        url = i.split("http://")[1].split("/")[0].split(".")
+        domain = i.split("http://")[1].split("/")[0]
     subdomain = url[0]
     if len(url) >= 3:
         if domain not in sites:
@@ -19,5 +25,5 @@ for i in lst:
         else:
             pass
     
-with open(f"{keyword}.json", "w") as f:
+with open(f"gsites.json", "w") as f:
     json.dump(sites, f)
