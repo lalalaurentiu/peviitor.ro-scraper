@@ -1,6 +1,6 @@
 from googlesearch import search
 keyword = "careers"
-lst = search(keyword, lang="ro", num_results=10 )
+lst = search(keyword, lang="ro", num_results=50 )
 import json
 
 sites = dict()
