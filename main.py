@@ -161,4 +161,7 @@ with open("jobs.txt", "r") as f:
 # make regext to filter another site...
 with open('job_filter.txt', 'a') as out:
     out.write('\n'.join(new_lst) + '\n')
+
+
+# my Func()
 ##################################################################
