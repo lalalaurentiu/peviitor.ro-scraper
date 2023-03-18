@@ -128,11 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-domains.txt
-endava.txt
-jobs.txt
-jobs.json
-sites.json
-gsites.json
-robots.txt
-
+*.json
+*.txt
+.DS_Store
