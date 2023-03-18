@@ -70,12 +70,14 @@ def search_buttons_by_regex_and_click_cookies(driver) -> None:
 
     # catch all buttons from this site
     try:
-        elements = WebDriverWait(driver, 10).until(
+
+        # by Buttons
+        elements_by_button = WebDriverWait(driver, 10).until(
                             EC.presence_of_all_elements_located((By.XPATH, "//button"))
                         )
 
-        # search buttons 
-        for elem in elements:
+        # search in elements_by_button
+        for elem in elements_by_button:
 
             # text from elem
             text = driver.execute_script("return arguments[0].innerHTML;", elem)
@@ -83,9 +85,29 @@ def search_buttons_by_regex_and_click_cookies(driver) -> None:
             # search in regex
             for btn in accept_cookies_regex():
                 if re.search(btn, text):
-                    elem.click()
+                    #elem.click()
+                    driver.execute_script("arguments[0].click();", elem)
                     sleep(0.5)
 
                     break
-    except: 
-        print('This app didn\'t support Social Media Apss or Login-Password required sites...')
+        else: 
+            # secret "for" for tag a
+            elements_by_a = WebDriverWait(driver, 10).until(
+                        EC.presence_of_all_elements_located((By.XPATH, "//a"))
+                    )
+            for elem_2 in elements_by_a:
+                
+                # text from elem
+                text = driver.execute_script("return arguments[0].innerHTML;", elem_2)
+
+                for btnn in accept_cookies_regex():
+                    if re.search(btnn, text):
+                        #elem_2.click()
+                        driver.execute_script("arguments[0].click();", elem_2)
+                        sleep(0.5)
+
+                        break
+
+    except:
+        print('Cookies didn\'t catch...)
+
