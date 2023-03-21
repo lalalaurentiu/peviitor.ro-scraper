@@ -64,7 +64,6 @@ for i in sitemapsLst:
             print(jobDetail)
             with open(f"sites.txt", "a") as f:
                 f.writelines(jobDetail + "\n")
-
         elif roDocument and ".xml" in line.text:
             xml = getSiteMapxml(line.text)
             for job in xml:
