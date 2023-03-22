@@ -21,9 +21,6 @@ def configured_driver():
     # add disable notifications
     options.add_argument('--disable-notifications')
     options.add_argument('--disable-extensions')
-    options.add_argument('--log-level=3') 
-    options.add_argument('--ignore-certificate-errors')
-    options.add_argument('--ignore-ssl-errors')
 
     # set random user Agent
     options.set_preference("general.useragent.override", UserAgent().random) 

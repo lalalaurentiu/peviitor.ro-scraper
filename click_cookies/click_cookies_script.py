@@ -13,7 +13,6 @@ from time import sleep
 #
 import re
 #
-#import re
 #
 #
 def accept_cookies_regex() -> list:
