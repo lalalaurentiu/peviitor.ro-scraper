@@ -50,8 +50,6 @@ for i in sites.keys():
         sitemapsLst.append(i)
         print(i)
 
-# sitemapsLst = ["https://jobs.enel.com/careers/sitemap_index.xml"]
-
 disponibleJobs = []
 
 for i in sitemapsLst:
