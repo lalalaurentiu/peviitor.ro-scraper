@@ -8,13 +8,17 @@
 #
 #
 # 
+#
+#
 import aiohttp
 import asyncio
 #
 import csv
 import pandas as pd
 #
-import re
+from bs4 import BeautifulSoup
+#
+import time
 #
 #
 #
@@ -42,15 +46,18 @@ async def get_page(session, url: str):
     lst_async_data = []
     async with session.get(url) as response:
         text = await response.text()
-        exp = r'(<title>).*(<title>)'
-        match = re.search(exp,text)
-        title = match.group(0) if match else 'No title found'
+        
+        soup = BeautifulSoup(text, 'lxml')
+        title = soup.title
 
-        print(title)
+        if title:
+            print(f"TITLE - {title.text} --- URL {url}")
 
-        lst_async_data.append(url)
-        lst_async_data.append(title)
-    
+            lst_async_data.append(url)
+            lst_async_data.append(title.text)
+
+        else: 
+            print('Title not found...')
     return lst_async_data
 #
 #
@@ -82,12 +89,13 @@ async def main(links: list):
 # 
 if __name__ == "__main__":
 
-    # count time
+    # start count time
+    tic = time.perf_counter()
 
     links = return_links_from_db()
 
     results = asyncio.run(main(links))
 
-    # time to check time
-
-    print(len(results))
+    # end count time
+    toc = time.perf_counter()
+    print(f"Sync Scrape-Script for {len(links)} links is done in {toc - tic:0.4f} seconds")
