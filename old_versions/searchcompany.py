@@ -2,7 +2,7 @@ from googlesearch import search
 import json
 
 keyword = "jobs"
-lst = search(keyword, lang="ro", num_results=100)
+lst = search(keyword, lang="ro", num_results=10 )
 
 sites = dict()
 

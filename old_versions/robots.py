@@ -55,7 +55,7 @@ disponibleJobs = []
 for i in sitemapsLst:
     lines = getSiteMapxml(i)
     for line in lines:
-        roDocument = re.findall(r'/(.*)[Jj]ob(.*)' , line.text)
+        roDocument = re.findall(r'/(.*)[Jj]ob(.*)|(.*)[Cc]areers(.*)|(.*)[Cc]ariere(.*)' , line.text)
 
         if roDocument and ".xml" not in line.text:
             jobDetail = line.text
