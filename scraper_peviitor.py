@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+from lxml import etree
 
 class Scraper:
     def __init__(self, url: str):
@@ -9,7 +10,6 @@ class Scraper:
         self.soup = None  
         self.getSoup()  
         
-
     def getSession(self):
         session = requests.Session()
         return session
@@ -17,7 +17,7 @@ class Scraper:
     def getSoup(self):
         try:
             document = self.session.get(self.url,headers=self.user_agent ,timeout=10)
-            self.soup = BeautifulSoup(document.text, "lxml")
+            self.soup = BeautifulSoup(document.text, "html.parser")
         except Exception as e:
             print(e)  
             return [] 
@@ -31,29 +31,21 @@ class Scraper:
         self._url = url
         self.getSoup()
 
-        
-        
+   
 class Rules:
     def __init__(self, scraper : Scraper):
         self.scraper = scraper
-
-    def getTitle(self):
-        self.title = self.scraper.soup.find('title').text
-        return self.title
     
-    def getAnchors(self, attrs : dict):
-        self.anchors = self.scraper.soup.find_all('a', attrs=attrs)
+    def getTags(self,tag : str , attrs : dict = None):
+        self.anchors = self.scraper.soup.find_all(tag, attrs=attrs)
         return set(self.anchors)
     
-
-
-
-
-
-
-
+    def getTag(self,tag : str , attrs : dict = None):
+        self.anchors = self.scraper.soup.find(tag, attrs=attrs)
+        return self.anchors
     
-
-
- 
-
+    def getXpath(self, xpath : str):
+        dom = etree.HTML(str(self.scraper.soup))
+        self.xpath = dom.xpath(xpath)
+        return self.xpath
+    
