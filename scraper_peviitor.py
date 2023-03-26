@@ -218,7 +218,7 @@ class Rules:
         :param attrs: un dicționar cu atributele tagului căutat (ex. {'class': 'foo', 'id': 'bar'})
         :return: un set de taguri găsite după criteriile de căutare specificate
         """
-        self.anchors = self.scraper._soup.find_all(tag, attrs=attrs)
+        self.anchors = self.scraper.soup.find_all(tag, attrs=attrs)
         return set(self.anchors)
     
     def getTag(self,tag : str , attrs : dict = None):
@@ -228,7 +228,7 @@ class Rules:
         :param attrs: un dicționar cu atributele tagului căutat (ex. {'class': 'foo', 'id': 'bar'})
         :return: primul tag găsit după criteriile de căutare specificate
         """
-        self.anchor = self.scraper._soup.find(tag, attrs=attrs)
+        self.anchor = self.scraper.soup.find(tag, attrs=attrs)
         return self.anchor
     
     def getXpath(self, xpath : str):
