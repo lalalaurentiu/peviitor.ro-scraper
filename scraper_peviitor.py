@@ -62,6 +62,9 @@ class ScraperSelenium:
     def find_element(self, by: By, value: str):
         return self.driver.find_element(by, value)
     
+    def find_elements(self, by: By, value: str):
+        return self.driver.find_elements(by, value)
+    
     def click(self, element):
         self.driver.execute_script("arguments[0].click();", element)
     
