@@ -239,5 +239,6 @@ class Rules:
         """
         dom = etree.HTML(str(self.scraper.soup))
         self.xpath = dom.xpath(xpath)
-        return self.xpath
+        return BeautifulSoup(etree.tostring(self.xpath[0]), "html.parser")
+    
     

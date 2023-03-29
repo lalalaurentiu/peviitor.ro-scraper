@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 import json
 import time
 
-#Folosim selenium deoarece anchiorele cu nu au atributul href
+#Folosim selenium deoarece anchorele cu nu au atributul href
 scraper = ScraperSelenium("https://medicover.mingle.ro/en/apply", webdriver.Chrome())
 scraper.get()
 
