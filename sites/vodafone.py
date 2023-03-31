@@ -4,6 +4,7 @@ from scraper_peviitor import ScraperSelenium
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+import uuid
 
 # Inițializăm un obiect ScraperSelenium cu URL-ul dorit și obiectul Chrome
 scraper = ScraperSelenium("https://jobs.vodafone.com/careers?query=Romania&pid=563018675157116&domain=vodafone.com&sort_by=relevance", Chrome())
@@ -39,21 +40,40 @@ idx = 0
 
 print(len(jobs))
 
-finalJobs = dict()
+finalJobs = list()
+
+# Parcurgem job-urile și le salvăm într-o listă de dictionare
 for job in jobs:
+    #Pe fiecare job il deschidem si extragem datele precum titlul, link-ul, compania, tara si orasul
     try:
         scraper.driver.execute_script("arguments[0].scrollIntoView();", job)
         scraper.click(job)
-        title = scraper.find_elements(By.CLASS_NAME, "position-title")[idx].text
-        location = "Romania"
-        print(title)
-        finalJobs[idx] = {"title": title, "location": location, "link": scraper.driver.current_url}
+        id = uuid.uuid4()
+        job_title = scraper.find_elements(By.CLASS_NAME, "position-title")[idx].text
+        job_link = scraper.driver.current_url
+        company = "Vodafone"
+        country = "Romania"
+        city = scraper.find_elements(By.CLASS_NAME, "position-location")[idx].text.split(",")[0]
+
+        finalJobs.append({
+            "id": str(id),
+            "job_title": job_title,
+            "job_link": job_link,
+            "company": company,
+            "country": country,
+            "city": city,
+        })
+        print(job_title + " " + city)
+
     except Exception as e:
         print(e)
         break
     idx += 1
     sleep(1)
 
+#Afiseaza numarul de joburi gasite
+print(len(finalJobs))
+
 # Salvăm job-urile într-un fișier JSON
 with open("vodafone.json", "w") as f:
-    json.dump(finalJobs, f)
+    json.dump(finalJobs, f, indent=4)
