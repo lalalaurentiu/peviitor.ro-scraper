@@ -3,6 +3,7 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 import time
 import json
+import uuid
 
 #folosim selenium deoarece joburile sunt incarcate prin ajax
 scraper = ScraperSelenium("https://alliancewd.wd3.myworkdayjobs.com/ro-RO/renault-group-careers?locationCountry=f2e609fe92974a55a05fc1cdc2852122&workerSubType=62e55b3e447c01871e63baa4ca0f9391&workerSubType=62e55b3e447c01140817bba4ca0f9891", Chrome())
@@ -15,7 +16,7 @@ time.sleep(10)
 page = Scraper()
 rules = Rules(page)
 
-finaljobs = dict()
+finaljobs = list()
 idx = 0
 
 #se extrag joburile
@@ -26,16 +27,33 @@ while True:
         #se seteaza dom-ul pentru scraperul de pe pagina
         page.soup = dom
         #se cauta joburile care au clasa css-19uc56f
-        elements = rules.getTags("a", {"class":"css-19uc56f"})
+        elements = rules.getTags("li", {"class":"css-1q2dra3"})
 
-        #pentru fiecare job, se extrage titlul, locatia si link-ul
+        #pentru fiecare job, se extrage titlul, link-ul, compania, tara si orasul
         for element in elements:
-            print(element.text)
-            title = element.text
-            location = "Romania"
-            link = "https://alliancewd.wd3.myworkdayjobs.com" + element["href"]
-            finaljobs[idx] = {"title": title, "location": location, "link": link}
-            idx += 1
+            id = uuid.uuid4()
+            job_title = element.find("a").text
+            job_link = "https://alliancewd.wd3.myworkdayjobs.com" + element.find("a")["href"]
+            company = "Renault"
+            country = "Romania"
+            city = element.find("li", {"class":"css-h2nt8k"})
+
+            if "_" in city.text:
+                city = "Romania"
+            else:
+                city = city.text
+
+            finaljobs.append({
+                "id": str(id),
+                "job_title": job_title,
+                "job_link": job_link,
+                "company": company,
+                "country": country,
+                "city": city
+            })
+
+            print(job_title + " " + city)
+
 
         #se cauta butonul de next
         nextBtn = scraper.find_element(By.XPATH, "//button[@aria-label='next']")
@@ -43,10 +61,15 @@ while True:
         scraper.driver.execute_script("arguments[0].scrollIntoView();", nextBtn)
         scraper.click(nextBtn)
         time.sleep(5)
+        
         print("Next")
-    except:
+    except Exception as e:
+        print(e)
         print("No more pages")
         break
+
+#se afiseaza numarul de joburi gasite
+print(len(finaljobs))
 
 #se salveaza joburile in fisierul renault.json
 with open("renault.json", "w") as f:
