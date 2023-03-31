@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import json
 import time
+import uuid
 
 #Folosim selenium deoarece anchorele cu nu au atributul href
 scraper = ScraperSelenium("https://medicover.mingle.ro/en/apply", webdriver.Chrome())
@@ -15,7 +16,7 @@ anchors = scraper.find_elements(By.CLASS_NAME, "btn-apply")
 anchorPageScraper = Scraper()
 rules = Rules(anchorPageScraper)
 
-finalJobs = dict()
+finalJobs = list()
 idx = 0
 
 while idx < len(anchors):
@@ -29,15 +30,38 @@ while idx < len(anchors):
     #Incarc dom-ul paginii jobului in scraper
     anchorPageScraper.soup = scraper.getDom()
 
-    #Extrag titlul ,locatia si linkul
-    title = rules.getTag("title").text
-    location = "Romania"
-    link = scraper.driver.current_url
-    print(title)
+    #Extrag datele de pe pagina jobului
+    id = uuid.uuid4()
+    job_title = rules.getTag("title").text
+    job_link = scraper.driver.current_url
+    company = "Medicover"
+    country = "Romania"
+    cities = []
+    
+    #Caut div-ul cu clasa py-2 d-flex flex-nowrap si extrag orasele
+    try:
+        city = rules.getTag("div", {"class": "py-2 d-flex flex-nowrap"}).text
+        if "," in city:
+            cities = city.split(",")
+        else:
+            cities.append(city)
+    except:
+        cities = ["Romania"]
 
-    #Adaug jobul in dictionar
-    finalJobs[idx] = {"title": title, "location": location, "link": link}
-
+    #Adaug joburile in lista finala
+    for city in cities:
+        finalJobs.append({
+        "id": str(id),
+        "job_title": job_title,
+        "job_link": job_link,
+        "company": company,
+        "country": country,
+        "city": city.strip()
+    })
+        
+    #Afisez jobul curent
+    print(finalJobs[idx])
+    
     #Inapoi la pagina principala
     scraper.driver.back()
     time.sleep(1)
@@ -45,7 +69,10 @@ while idx < len(anchors):
     #Caut toate ancorele din nou
     anchors = scraper.find_elements(By.CLASS_NAME, "btn-apply")
     idx += 1
-    
+
+#Numarul de joburi gasite
+print(len(finalJobs))
+
 #Salvez joburile in fisierul medicover.json
 with open("medicover.json", "w") as f:
     json.dump(finalJobs, f, indent=4)

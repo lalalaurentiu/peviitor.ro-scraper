@@ -4,6 +4,7 @@ from scraper_peviitor import Scraper, Rules, ScraperSelenium
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+import uuid
 
 # Se creează o instanță a clasei ScraperSelenium pentru a accesa site-ul
 scraper = ScraperSelenium("https://career.hm.com/search/?l=cou%3Aro", Chrome())
@@ -54,25 +55,37 @@ rules = Rules(scraper)
 # Se extrag job-urile din pagină și se salvează într-un dicționar
 jobs = rules.getTags("a", {"class": "jobs-card--link"})
 idx = 0
-finaljobs = dict()
+finaljobs = list()
 for job in jobs:
-    print(job["href"])
     scraper.url = job["href"]
     rules = Rules(scraper)
 
-    # Se extrage titlul job-ului și se elimină caracterele nedorite din text
-    title = rules.getTag("div", {"class": "text--title-large"}).text.replace("\n", "").replace("\t", "").replace("Stores", "")
+    id = str(uuid.uuid4())
+    job_title = rules.getTag("div", {"class": "text--title-large"}).text.replace("\n", "").replace("\t", "").replace("Stores", "")
+    job_link = job["href"]
+    company = "HM"
+    country = "Romania"
+    city = rules.getTag("div", {"class": "jobs-card__group-td"}).find("b").text
     
-    # Se specifică locația job-ului (în acest caz este doar "Romania")
-    location = "Romania"
-    finaljobs[idx] = {"title": title, "location": location, "link": job["href"]}
+    finaljobs.append({
+        "id": id,
+        "job_title": job_title,
+        "job_link": job_link,
+        "company": company,
+        "country": country,
+        "city": city,
+    })
+
+    print(finaljobs[idx])
     idx += 1
-    print(title)
     sleep(3)
+
+# Se afișează numărul de job-uri extrase
+print(len(finaljobs))
 
 # Se salvează dicționarul cu job-uri într-un fișier JSON
 with open("hm.json", "w") as f:
-    json.dump(finaljobs, f)
+    json.dump(finaljobs, f, indent=4)
 
 
 

@@ -1,27 +1,38 @@
 from scraper_peviitor import Scraper, Rules
 import time
 import json
+import uuid
 
 #Se creeaza o instanta a clasei Scraper
 scraper = Scraper("https://www.nestle.ro/jobs/search-jobs?keyword=Romania&country=&location=&career_area=All")
 rules = Rules(scraper)
 
-finalJobs = dict()
-idx = 0
+finalJobs = list()
 
 #Se extrag joburile
 while True:
-    #Se cauta joburile care au clasa jobs-title
-    elements = rules.getTags("div", {"class":"jobs-title"})
+    #Se cauta joburile care au clasa jobs-card
+    elements = rules.getTags("div", {"class":"jobs-card"})
 
-    #Pentru fiecare job, se extrage titlul, locatia si link-ul
+    #Pentru fiecare job, se extrage titlul, link-ul, compania, tara si orasul
     for element in elements:
-        title = element.find("a").text.replace("\t", "").replace("\r", "").replace("\n", "").replace("  ", "")
-        location = "Romania"
-        link = element.find("a")["href"]
-        print(title)
-        finalJobs[idx] = {"title": title, "location": location, "link": link}
-        idx += 1
+        id = uuid.uuid4()
+        job_title = element.find("a").text.replace("\t", "").replace("\r", "").replace("\n", "").replace("  ", "")
+        job_link = element.find("a")["href"]
+        company = "Nestle"
+        country = "Romania"
+        city = element.find("div", {"class":"jobs-location"}).text.split(",")[0]
+
+        finalJobs.append({
+            "id": str(id),
+            "job_title": job_title,
+            "job_link": job_link,
+            "company": company,
+            "country": country,
+            "city": city
+        })
+
+        print(job_title)
 
     #Se cauta butonul de next
     domain = "https://www.nestle.ro/jobs/search-jobs"
@@ -34,6 +45,10 @@ while True:
         break
 
     time.sleep(3)
+
+
+#Afiseaza numarul de joburi gasite
+print(len(finalJobs))
 
 #Se salveaza joburile in fisierul nestle.json
 with open("nestle.json", "w") as f:
