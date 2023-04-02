@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+*.json
+*.txt
+.DS_Store
+*.csv
+/driver
