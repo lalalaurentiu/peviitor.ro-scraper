@@ -55,5 +55,5 @@ for jobs in jobsPerPage:
 
 print(len(finaljobs))
 #Salvam joburile in fisierul draxlmaier.json
-with open("draxlmaier.json", "w") as f:
+with open("json/draxlmaier.json", "w") as f:
     json.dump(finaljobs, f, indent=4)

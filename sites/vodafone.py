@@ -4,10 +4,18 @@ from scraper_peviitor import ScraperSelenium
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+
+from selenium.webdriver.chrome.options import Options
+
+#Setam optiunile pentru Chrome pentru a nu deschide fereastra
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--disable-gpu")
+
 import uuid
 
 # Inițializăm un obiect ScraperSelenium cu URL-ul dorit și obiectul Chrome
-scraper = ScraperSelenium("https://jobs.vodafone.com/careers?query=Romania&pid=563018675157116&domain=vodafone.com&sort_by=relevance", Chrome())
+scraper = ScraperSelenium("https://jobs.vodafone.com/careers?query=Romania&pid=563018675157116&domain=vodafone.com&sort_by=relevance", Chrome(options=options))
 # Accesăm URL-ul
 scraper.get()
 
@@ -69,11 +77,11 @@ for job in jobs:
         print(e)
         break
     idx += 1
-    sleep(1)
+    sleep(2)
 
 #Afiseaza numarul de joburi gasite
 print(len(finalJobs))
 
 # Salvăm job-urile într-un fișier JSON
-with open("vodafone.json", "w") as f:
+with open("json/vodafone.json", "w") as f:
     json.dump(finalJobs, f, indent=4)

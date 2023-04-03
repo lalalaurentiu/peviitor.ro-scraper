@@ -52,5 +52,5 @@ for page in range(len(pages)):
 print(len(finalJobs))
 
 #Salvam joburile in fisierul otpbank.json
-with open("otpbank.json", "w") as f:
+with open("json/otpbank.json", "w") as f:
     json.dump(finalJobs, f, indent=4)

@@ -1,11 +1,19 @@
 from scraper_peviitor import Scraper, Rules, ScraperSelenium
 from selenium import webdriver
+
+from selenium.webdriver.chrome.options import Options
+
+#Setam optiunile pentru Chrome pentru a nu deschide fereastra
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--disable-gpu")
+
 import json
 import uuid
 import time
 
 #Folosesc selenium deoarece joburile sunt incarcate prin ajax
-scraper = ScraperSelenium('https://cariere-decathlon.ro', webdriver.Chrome())
+scraper = ScraperSelenium('https://cariere-decathlon.ro', webdriver.Chrome(options=options))
 scraper.get()
 
 #Iau dom-ul randat de browser
@@ -31,7 +39,7 @@ for elemen in elements:
     title = link.text
 
     #Deschid link-ul jobului in browser
-    linkScrap = ScraperSelenium(link['href'], webdriver.Chrome())
+    linkScrap = ScraperSelenium(link['href'], webdriver.Chrome(options=options))
     linkScrap.get()
     time.sleep(3)
 
@@ -45,7 +53,8 @@ for elemen in elements:
     city = rules.getTag('span', {'data-ui': 'job-location'})
 
     location = city.text.split(',')[0]
-    print(location)
+    
+    print(title + " " + location)
 
     country = "Romania"
     finalJobs.append({
@@ -59,5 +68,5 @@ for elemen in elements:
 
     time.sleep(3)
 
-with open('decathlon.json', 'w') as file:
+with open('json/decathlon.json', 'w') as file:
     json.dump(finalJobs, file, indent=4)

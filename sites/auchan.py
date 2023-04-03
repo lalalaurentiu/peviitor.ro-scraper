@@ -1,12 +1,20 @@
 from scraper_peviitor import Scraper, ScraperSelenium, Rules
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
+
+from selenium.webdriver.chrome.options import Options
+
+#Setam optiunile pentru Chrome pentru a nu deschide fereastra
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--disable-gpu")
+
 import time
 import uuid
 import json 
 
 #Folosim ScraperSelenium pentru a putea naviga pe pagini
-scraper = ScraperSelenium("https://cariere.auchan.ro/?_ga=2.139478582.44265217.1594377481-1024065221.1578324695/", Chrome())
+scraper = ScraperSelenium("https://cariere.auchan.ro/?_ga=2.139478582.44265217.1594377481-1024065221.1578324695/", Chrome(options=options))
 scraper.get()
 
 #Asteptam sa se incarce pagina
@@ -106,5 +114,5 @@ for page in range(len(pages)):
 print(len(finaljobs))
 
 #Salvam datele in fisierul auchan.json
-with open("auchan.json", "w") as f:
+with open("json/auchan.json", "w") as f:
     json.dump(finaljobs, f, indent=4)

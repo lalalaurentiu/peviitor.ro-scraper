@@ -1,12 +1,19 @@
 from scraper_peviitor import Scraper, Rules, ScraperSelenium
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+
+#Setam optiunile pentru Chrome pentru a nu deschide fereastra
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--disable-gpu")
+
 import time
 import json
 import uuid
 
 #folosim selenium deoarece joburile sunt incarcate prin ajax
-scraper = ScraperSelenium("https://alliancewd.wd3.myworkdayjobs.com/ro-RO/renault-group-careers?locationCountry=f2e609fe92974a55a05fc1cdc2852122&workerSubType=62e55b3e447c01871e63baa4ca0f9391&workerSubType=62e55b3e447c01140817bba4ca0f9891", Chrome())
+scraper = ScraperSelenium("https://alliancewd.wd3.myworkdayjobs.com/ro-RO/renault-group-careers?locationCountry=f2e609fe92974a55a05fc1cdc2852122&workerSubType=62e55b3e447c01871e63baa4ca0f9391&workerSubType=62e55b3e447c01140817bba4ca0f9891", Chrome(options=options))
 scraper.get()
 
 #asteptam sa se incarce Siteul
@@ -72,6 +79,6 @@ while True:
 print(len(finaljobs))
 
 #se salveaza joburile in fisierul renault.json
-with open("renault.json", "w") as f:
+with open("json/renault.json", "w") as f:
     json.dump(finaljobs, f, indent=4)
 
