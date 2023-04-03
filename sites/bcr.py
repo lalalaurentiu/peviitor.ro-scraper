@@ -35,5 +35,5 @@ for element in elements:
 print(len(finalJobs))
 
 #salvăm rezultatele într-un fișier JSON
-with open("bcr.json", "w") as file:
+with open("json/bcr.json", "w") as file:
     json.dump(finalJobs, file, indent=4)

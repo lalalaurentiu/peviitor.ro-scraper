@@ -4,10 +4,18 @@ from scraper_peviitor import Scraper, Rules, ScraperSelenium
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+
+from selenium.webdriver.chrome.options import Options
+
+#Setam optiunile pentru Chrome pentru a nu deschide fereastra
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--disable-gpu")
+
 import uuid
 
 # Se creează o instanță a clasei ScraperSelenium pentru a accesa site-ul
-scraper = ScraperSelenium("https://career.hm.com/search/?l=cou%3Aro", Chrome())
+scraper = ScraperSelenium("https://career.hm.com/search/?l=cou%3Aro", Chrome(options=options))
 
 # Se accesează site-ul
 scraper.get()
@@ -84,7 +92,7 @@ for job in jobs:
 print(len(finaljobs))
 
 # Se salvează dicționarul cu job-uri într-un fișier JSON
-with open("hm.json", "w") as f:
+with open("json/hm.json", "w") as f:
     json.dump(finaljobs, f, indent=4)
 
 

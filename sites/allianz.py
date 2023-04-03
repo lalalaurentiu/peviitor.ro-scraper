@@ -3,13 +3,20 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
+from selenium.webdriver.chrome.options import Options
+
+#Setam optiunile pentru Chrome pentru a nu deschide fereastra
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--disable-gpu")
+
 import time
 import uuid
 import json
 
 #Folosim ScraperSelenium pentru ca siteul incarca elementele prin AJAX
 url = "https://careers.allianz.com/en_US.html/search/?searchby=location&createNewAlert=false&q=&locationsearch=Romania&optionsFacetsDD_department=&optionsFacetsDD_shifttype=&optionsFacetsDD_customfield3=&optionsFacetsDD_customfield2=&optionsFacetsDD_facility=&optionsFacetsDD_customfield4=&inputSearchValue=Romania&quatFlag=false"
-scraper = ScraperSelenium(url, Chrome())
+scraper = ScraperSelenium(url, Chrome(options=options))
 scraper.get()
 
 #Asteptam sa se incarce cookie-ul
@@ -75,5 +82,5 @@ while True:
 print(len(finaljobs))
 
 #Salvam joburile in fisierul allianz.json
-with open("allianz.json", "w") as f:
+with open("json/allianz.json", "w") as f:
     json.dump(finaljobs, f, indent=4)

@@ -65,5 +65,5 @@ for job in j:
 print(len(finalJobs))
 
 #Salvam joburile in fisierul brd.json
-with open("brd.json", "w") as f:
+with open("json/brd.json", "w") as f:
     json.dump(finalJobs, f, indent=4)

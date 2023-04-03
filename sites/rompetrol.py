@@ -50,5 +50,5 @@ for query in queryList:
 print(len(finaljobs))
 
 #Salvam joburile in fisierul rompetrol.json
-with open("rompetrol.json", "w") as f:
+with open("json/rompetrol.json", "w") as f:
     json.dump(finaljobs, f, indent=4)

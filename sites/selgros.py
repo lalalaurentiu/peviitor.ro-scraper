@@ -47,5 +47,5 @@ for page in range(1, numberPages + 1):
 print(len(finaljobs))
 
 #Salvam joburile in fisierul selgros.json
-with open("selgros.json", "w") as f:
+with open("json/selgros.json", "w") as f:
     json.dump(finaljobs, f, indent=4)

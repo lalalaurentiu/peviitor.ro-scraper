@@ -49,5 +49,5 @@ for page in range(len(pageNumbers)):
 print(len(finalJobs))
 
 #Salvam datele in fisierul medlife.json
-with open("medlife.json", "w") as f:
+with open("json/medlife.json", "w") as f:
     json.dump(finalJobs, f, indent=4)

@@ -51,6 +51,6 @@ for jobCategory in jobsCategory:
 print(len(finaljobs))
 
 #Salvam lista de joburi in fisierul synevo.json
-with open("synevo.json", "w") as f:
+with open("json/synevo.json", "w") as f:
     json.dump(finaljobs, f, indent=4)
 

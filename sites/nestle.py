@@ -51,7 +51,7 @@ while True:
 print(len(finalJobs))
 
 #Se salveaza joburile in fisierul nestle.json
-with open("nestle.json", "w") as f:
+with open("json/nestle.json", "w") as f:
     json.dump(finalJobs, f, indent=4)
 
 
