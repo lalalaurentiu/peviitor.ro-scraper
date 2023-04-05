@@ -1,11 +1,13 @@
 from time import sleep
 import json
-from scraper_peviitor import Scraper, Rules, ScraperSelenium
+from scraper_peviitor import Scraper, Rules, ScraperSelenium, loadingData
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
 from selenium.webdriver.chrome.options import Options
+
+import os
 
 #Setam optiunile pentru Chrome pentru a nu deschide fereastra
 options = Options()
@@ -94,6 +96,10 @@ print(len(finaljobs))
 # Se salvează dicționarul cu job-uri într-un fișier JSON
 with open("json/hm.json", "w") as f:
     json.dump(finaljobs, f, indent=4)
+
+apikey = os.environ.get("apikey")
+
+loadingData(finaljobs, apikey, "HM")
 
 
 

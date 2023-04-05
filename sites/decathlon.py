@@ -1,4 +1,4 @@
-from scraper_peviitor import Scraper, Rules, ScraperSelenium
+from scraper_peviitor import Scraper, Rules, ScraperSelenium, loadingData
 from selenium import webdriver
 
 from selenium.webdriver.chrome.options import Options
@@ -11,6 +11,7 @@ options.add_argument("--disable-gpu")
 import json
 import uuid
 import time
+import os
 
 #Folosesc selenium deoarece joburile sunt incarcate prin ajax
 scraper = ScraperSelenium('https://cariere-decathlon.ro', webdriver.Chrome(options=options))
@@ -41,7 +42,6 @@ for elemen in elements:
     #Deschid link-ul jobului in browser
     linkScrap = ScraperSelenium(link['href'], webdriver.Chrome(options=options))
     linkScrap.get()
-    time.sleep(3)
 
     #Iau dom-ul jobului si il pun in scraper
     scraper.soup = linkScrap.getDom()
@@ -52,7 +52,10 @@ for elemen in elements:
     #Iau locatia jobului
     city = rules.getTag('span', {'data-ui': 'job-location'})
 
-    location = city.text.split(',')[0]
+    try:
+        location = city.text.split(',')[0]
+    except:
+        location = "Romania"
     
     print(title + " " + location)
 
@@ -70,3 +73,7 @@ for elemen in elements:
 
 with open('json/decathlon.json', 'w') as file:
     json.dump(finalJobs, file, indent=4)
+
+apikey = os.environ.get('apikey')
+
+loadingData(finalJobs, apikey, 'Decathlon')

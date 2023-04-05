@@ -1,7 +1,8 @@
-from scraper_peviitor import Scraper, Rules
+from scraper_peviitor import Scraper, Rules, loadingData
 import time
 import uuid
 import json
+import os
 
 url = "https://www.brd.ro/cariere"
 
@@ -60,6 +61,7 @@ for job in j:
             "city": city,
         }
     )
+    print(job_title + " " + city)
 
 #Afisam numarul total de joburi gasite
 print(len(finalJobs))
@@ -67,3 +69,7 @@ print(len(finalJobs))
 #Salvam joburile in fisierul brd.json
 with open("json/brd.json", "w") as f:
     json.dump(finalJobs, f, indent=4)
+
+apikey = os.environ.get("apikey")
+
+loadingData(finalJobs, apikey, "BRD")
