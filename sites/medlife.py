@@ -1,7 +1,8 @@
-from scraper_peviitor import Scraper, Rules
+from scraper_peviitor import Scraper, Rules, loadingData
 import uuid
 import time
 import json 
+import os
 
 #Cream o instanta a clasei Scraper
 url = "https://www.medlife.ro/cariere/lista-joburi"
@@ -51,3 +52,5 @@ print(len(finalJobs))
 #Salvam datele in fisierul medlife.json
 with open("json/medlife.json", "w") as f:
     json.dump(finalJobs, f, indent=4)
+
+apikey = os.environ.get("apikey")

@@ -1,8 +1,10 @@
-from scraper_peviitor import ScraperSelenium, Scraper, Rules
+from scraper_peviitor import ScraperSelenium, Scraper, Rules, loadingData
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 from selenium.webdriver.chrome.options import Options
+import os 
+import json
 
 #Setam optiunile pentru Chrome pentru a nu deschide fereastra
 options = Options()
@@ -85,5 +87,9 @@ print(len(finalJobs))
 with open("json/medicover.json", "w") as f:
     json.dump(finalJobs, f, indent=4)
 
+
+apikey = os.environ.get("apikey")
+
+loadingData(finalJobs, apikey, "Medicover")
 
 

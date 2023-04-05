@@ -1,7 +1,8 @@
-from scraper_peviitor import Scraper, Rules
+from scraper_peviitor import Scraper, Rules, loadingData
 import uuid
 import time
 import json
+import os
 
 #Cream o instanta a clasei Scraper
 scraper = Scraper("https://d-career.org/Draexlmaier/go/DRÄXLMAIER-Job-Opportunities-in-Romania-%28Romanian%29/4196801/125/?q=&sortColumn=referencedate&sortDirection=desc")
@@ -57,3 +58,7 @@ print(len(finaljobs))
 #Salvam joburile in fisierul draxlmaier.json
 with open("json/draxlmaier.json", "w") as f:
     json.dump(finaljobs, f, indent=4)
+
+apikey = os.environ.get("apikey")
+
+loadingData(finaljobs, apikey, "Draxlmaier")

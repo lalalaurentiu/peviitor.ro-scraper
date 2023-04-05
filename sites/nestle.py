@@ -1,7 +1,8 @@
-from scraper_peviitor import Scraper, Rules
+from scraper_peviitor import Scraper, Rules, loadingData
 import time
 import json
 import uuid
+import os
 
 #Se creeaza o instanta a clasei Scraper
 scraper = Scraper("https://www.nestle.ro/jobs/search-jobs?keyword=Romania&country=&location=&career_area=All")
@@ -54,4 +55,6 @@ print(len(finalJobs))
 with open("json/nestle.json", "w") as f:
     json.dump(finalJobs, f, indent=4)
 
+apikey = os.environ.get("apikey")
 
+loadingData(finalJobs, apikey, "Nestle")
