@@ -59,7 +59,7 @@ for page in totalJobs:
 print(len(finalJobs))
 
 #Salvam joburile in fisierul eon.json
-with open("eon.json", "w") as f:
+with open("json/eon.json", "w") as f:
     json.dump(finalJobs, f, indent=4)
 
 #Incarcam joburile in baza de date
