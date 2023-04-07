@@ -1,7 +1,8 @@
-from scraper_peviitor import Scraper, Rules
+from scraper_peviitor import Scraper, Rules, loadingData
 import time
 import uuid
 import json
+import os
 
 #Cream o instanta a clasei Scraper
 scraper = Scraper("https://www.synevo.ro/cariere/")
@@ -51,6 +52,10 @@ for jobCategory in jobsCategory:
 print(len(finaljobs))
 
 #Salvam lista de joburi in fisierul synevo.json
-with open("synevo.json", "w") as f:
+with open("json/synevo.json", "w") as f:
     json.dump(finaljobs, f, indent=4)
+
+apikey = os.environ.get("apikey")
+
+loadingData(finaljobs, apikey, "Synevo")
 

@@ -1,12 +1,22 @@
-from scraper_peviitor import ScraperSelenium, Scraper, Rules
+from scraper_peviitor import ScraperSelenium, Scraper, Rules, loadingData
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+
+from selenium.webdriver.chrome.options import Options
+import os 
+import json
+
+#Setam optiunile pentru Chrome pentru a nu deschide fereastra
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--disable-gpu")
+
 import json
 import time
 import uuid
 
 #Folosim selenium deoarece anchorele cu nu au atributul href
-scraper = ScraperSelenium("https://medicover.mingle.ro/en/apply", webdriver.Chrome())
+scraper = ScraperSelenium("https://medicover.mingle.ro/en/apply", webdriver.Chrome(options=options))
 scraper.get()
 
 #Caut toate anchorele cu clasa btn-apply
@@ -60,7 +70,7 @@ while idx < len(anchors):
     })
         
     #Afisez jobul curent
-    print(finalJobs[idx])
+    print(job_title + " " + city)
     
     #Inapoi la pagina principala
     scraper.driver.back()
@@ -74,8 +84,12 @@ while idx < len(anchors):
 print(len(finalJobs))
 
 #Salvez joburile in fisierul medicover.json
-with open("medicover.json", "w") as f:
+with open("json/medicover.json", "w") as f:
     json.dump(finalJobs, f, indent=4)
 
+
+apikey = os.environ.get("apikey")
+
+loadingData(finalJobs, apikey, "Medicover")
 
 

@@ -1,9 +1,18 @@
 from time import sleep
 import json
-from scraper_peviitor import ScraperSelenium
+from scraper_peviitor import ScraperSelenium, loadingData
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+
+from selenium.webdriver.chrome.options import Options
+
+import os
+
+#Setam optiunile pentru Chrome pentru a nu deschide fereastra
+options = Options()
+options.add_argument("--headless")
+
 import uuid
 
 # Inițializăm un obiect ScraperSelenium cu URL-ul dorit și obiectul Chrome
@@ -32,7 +41,7 @@ for click in range(len(butonCountClick)):
     button = scraper.find_element(By.CLASS_NAME, 'show-more-positions')
     scraper.driver.execute_script("arguments[0].scrollIntoView();", button)
     scraper.click(button)
-    sleep(3)
+    sleep(2)
 
 # Extragem toate job-urile de pe pagină și le parcurgem succesiv, accesând fiecare în parte și extrăgând titlul și locația
 jobs = scraper.find_elements(By.CLASS_NAME, "position-card")
@@ -40,10 +49,13 @@ idx = 0
 
 print(len(jobs))
 
+scraper.driver.execute_script("scroll(0, 0);")
+
 finalJobs = list()
 
 # Parcurgem job-urile și le salvăm într-o listă de dictionare
 for job in jobs:
+    sleep(2)
     #Pe fiecare job il deschidem si extragem datele precum titlul, link-ul, compania, tara si orasul
     try:
         scraper.driver.execute_script("arguments[0].scrollIntoView();", job)
@@ -69,11 +81,15 @@ for job in jobs:
         print(e)
         break
     idx += 1
-    sleep(1)
+    
 
 #Afiseaza numarul de joburi gasite
 print(len(finalJobs))
 
 # Salvăm job-urile într-un fișier JSON
-with open("vodafone.json", "w") as f:
+with open("json/vodafone.json", "w") as f:
     json.dump(finalJobs, f, indent=4)
+
+apikey = os.environ.get('apikey')
+
+loadingData(finalJobs, apikey, "Vodafone")

@@ -1,6 +1,7 @@
-from scraper_peviitor import Scraper, Rules
+from scraper_peviitor import Scraper, Rules, loadingData
 import uuid
 import json
+import os
 
 #Cream o instanta a clasei Scraper
 scraper = Scraper("https://erstegroup-careers.com/bcr/search/?createNewAlert=false&q=&locations")
@@ -35,5 +36,9 @@ for element in elements:
 print(len(finalJobs))
 
 #salvăm rezultatele într-un fișier JSON
-with open("bcr.json", "w") as file:
+with open("json/bcr.json", "w") as file:
     json.dump(finalJobs, file, indent=4)
+
+apikey = os.environ.get("apikey")
+
+loadingData(finalJobs, apikey, "BCR")
