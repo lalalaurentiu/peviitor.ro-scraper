@@ -246,7 +246,7 @@ class Rules:
         return BeautifulSoup(etree.tostring(self.xpath[0]), "html.parser")
     
 
-def loadingData(data, apikey, company):
+def loadingData(data : dict, apikey : str, company : str):
     """
     Încarcă datele din fișierul de intrare.
     :return: un dicționar cu datele din fișierul de intrare
@@ -258,10 +258,10 @@ def loadingData(data, apikey, company):
     updateContentType = "application/json"
 
     r = requests.post(clean, headers={"apikey": apikey, "Content-Type": cleanContentType}, data={"company": company})
-    print(r.status_code)
+    print("Cleaning data for company " + company + "...")
 
     if len(data) > 0:
         r = requests.post(update, headers={"apikey": apikey, "Content-Type": updateContentType}, data = json.dumps(data))
-        print(r.status_code)
+        print("Updating data for company " + company + "...")
 
     
