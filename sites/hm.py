@@ -1,23 +1,14 @@
 from time import sleep
 import json
 from scraper_peviitor import Scraper, Rules, ScraperSelenium, loadingData
-from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from selenium.webdriver.chrome.options import Options
-
 import os
-
-#Setam optiunile pentru Chrome pentru a nu deschide fereastra
-options = Options()
-options.add_argument("--headless")
-options.add_argument("--disable-gpu")
-
 import uuid
 
 # Se creează o instanță a clasei ScraperSelenium pentru a accesa site-ul
-scraper = ScraperSelenium("https://career.hm.com/search/?l=cou%3Aro", Chrome(options=options))
+scraper = ScraperSelenium("https://career.hm.com/search/?l=cou%3Aro")
 
 # Se accesează site-ul
 scraper.get()

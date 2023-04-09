@@ -1,5 +1,4 @@
 from scraper_peviitor import Scraper, Rules, loadingData, ScraperSelenium
-from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 
 import time
@@ -7,13 +6,8 @@ import uuid
 import json
 import os
 
-from selenium.webdriver.chrome.options import Options
-
-options = Options()
-options.add_argument("--headless")
-
 #Folosim ScraperSelenium dewoarece nu putem accesa paginatia prin BeautifulSoup
-scraper = ScraperSelenium("https://zentiva.wd3.myworkdayjobs.com/en-US/Zentiva/details/Head-of-Strategy-Execution_R2464603-1?locations=ca7924da36fa0149be9376945a35dd27", Chrome(options=options))
+scraper = ScraperSelenium("https://zentiva.wd3.myworkdayjobs.com/en-US/Zentiva/details/Head-of-Strategy-Execution_R2464603-1?locations=ca7924da36fa0149be9376945a35dd27")
 scraper.get()
 
 time.sleep(5)

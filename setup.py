@@ -8,6 +8,7 @@ setup(
     author='Peviitor',
     
     packages=find_packages(),
+
     install_requires=[
         'beautifulsoup4==4.9.3',
         'bs4==0.0.1',
@@ -18,6 +19,7 @@ setup(
         'requests==2.25.1',
         'soupsieve==2.2',
         'urllib3==1.26.3',
+        'selenium==3.141.0',
     ],
     python_requires='>=3.6',
 )

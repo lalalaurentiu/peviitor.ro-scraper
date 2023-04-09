@@ -1,22 +1,14 @@
 from time import sleep
 import json
 from scraper_peviitor import ScraperSelenium, loadingData
-from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from selenium.webdriver.chrome.options import Options
-
 import os
-
-#Setam optiunile pentru Chrome pentru a nu deschide fereastra
-options = Options()
-options.add_argument("--headless")
-
 import uuid
 
 # Inițializăm un obiect ScraperSelenium cu URL-ul dorit și obiectul Chrome
-scraper = ScraperSelenium("https://jobs.vodafone.com/careers?query=Romania&pid=563018675157116&domain=vodafone.com&sort_by=relevance", Chrome())
+scraper = ScraperSelenium("https://jobs.vodafone.com/careers?query=Romania&pid=563018675157116&domain=vodafone.com&sort_by=relevance")
 # Accesăm URL-ul
 scraper.get()
 

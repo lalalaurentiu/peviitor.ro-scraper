@@ -1,9 +1,4 @@
 from scraper_peviitor import Scraper, Rules, loadingData, ScraperSelenium
-from selenium.webdriver import Chrome
-from selenium.webdriver.chrome.options import Options
-
-options = Options()
-options.add_argument("--headless")
 
 import json
 import time
@@ -11,7 +6,7 @@ import uuid
 import os
 
 #Folosim ScraperSelenium deoarece joburile sunt incarcate prin AJAX
-scraper = ScraperSelenium("https://www.tesla.com/ro_RO/careers/search/?site=RO", Chrome(options=options))
+scraper = ScraperSelenium("https://www.tesla.com/ro_RO/careers/search/?site=RO")
 scraper.get()
 time.sleep(5)
 
