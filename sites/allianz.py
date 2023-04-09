@@ -1,26 +1,15 @@
 from scraper_peviitor import Scraper, ScraperSelenium, Rules, loadingData
-from selenium.webdriver import Chrome
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
-from selenium.webdriver.chrome.options import Options
-
 import os 
-import json
-
-
-#Setam optiunile pentru Chrome pentru a nu deschide fereastra
-options = Options()
-options.add_argument("--headless")
-options.add_argument("--disable-gpu")
-
 import time
 import uuid
 import json
 
 #Folosim ScraperSelenium pentru ca siteul incarca elementele prin AJAX
 url = "https://careers.allianz.com/en_US.html/search/?searchby=location&createNewAlert=false&q=&locationsearch=Romania&optionsFacetsDD_department=&optionsFacetsDD_shifttype=&optionsFacetsDD_customfield3=&optionsFacetsDD_customfield2=&optionsFacetsDD_facility=&optionsFacetsDD_customfield4=&inputSearchValue=Romania&quatFlag=false"
-scraper = ScraperSelenium(url, Chrome(options=options))
+scraper = ScraperSelenium(url)
 scraper.get()
 
 #Asteptam sa se incarce cookie-ul
