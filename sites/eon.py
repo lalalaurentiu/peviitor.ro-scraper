@@ -1,20 +1,14 @@
 from scraper_peviitor import Scraper, ScraperSelenium, Rules, loadingData
-from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 
 import time
 import uuid
 import json
 import os
 
-from selenium.webdriver.chrome.options import Options
-
-options = Options()
-options.add_argument("--headless")
 
 #Folosim ScraperSelenium deoarece numarul de joburi este incarcat prin AJAX
-scraper = ScraperSelenium("https://careers.eon.com/romania/go/Toate-joburile-din-Romania/3727401?utm_source=pagina-cariere-ro", Chrome(options=options))
+scraper = ScraperSelenium("https://careers.eon.com/romania/go/Toate-joburile-din-Romania/3727401?utm_source=pagina-cariere-ro")
 scraper.get()
 
 time.sleep(5)

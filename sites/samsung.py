@@ -6,8 +6,9 @@ import uuid
 import json
 import os
 
+
 #Folosim ScraperSelenium dewoarece nu putem accesa paginatia prin BeautifulSoup
-scraper = ScraperSelenium("https://zentiva.wd3.myworkdayjobs.com/en-US/Zentiva/details/Head-of-Strategy-Execution_R2464603-1?locations=ca7924da36fa0149be9376945a35dd27")
+scraper = ScraperSelenium("https://sec.wd3.myworkdayjobs.com/Samsung_Careers?q=Romania")
 scraper.get()
 
 time.sleep(5)
@@ -40,8 +41,8 @@ for page in range(len(totalJobs)):
     for job in jobs:
         id = uuid.uuid4()
         job_title = job.find("a").text
-        job_link = "https://zentiva.wd3.myworkdayjobs.com" + job.find("a")["href"]
-        company = "Zentiva"
+        job_link = "https://sec.wd3.myworkdayjobs.com" + job.find("a")["href"]
+        company = "Samsung"
         country = "Romania"
         city = "Romania"
         print(job_title + " " + city)
@@ -61,10 +62,10 @@ for page in range(len(totalJobs)):
 print("Total jobs: " + str(len(finalJobs)))
 
 #Salvam joburile in fisierul json
-with open("json/zentiva.json", "w") as f:
+with open("json/samsung.json", "w") as f:
     json.dump(finalJobs, f, indent=4)
 
 #Incarcam joburile in baza de date
 apikey = os.environ.get("apikey")
 
-loadingData(finalJobs, apikey, "zentiva")
+loadingData(finalJobs, apikey, "Samsung")

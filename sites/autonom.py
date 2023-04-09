@@ -1,5 +1,4 @@
 from scraper_peviitor import Scraper, Rules, loadingData, ScraperSelenium
-from selenium.webdriver import Chrome
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
@@ -8,12 +7,8 @@ import uuid
 import json
 import os
 
-from selenium.webdriver.chrome.options import Options
-options = Options()
-options.add_argument("--headless")
-
 #Folosim ScraperSelenium deoarece paginatia se face cu ajutorul unui buton
-scraper = ScraperSelenium("https://www.autonom.ro/cariere", Chrome(options=options))
+scraper = ScraperSelenium("https://www.autonom.ro/cariere")
 scraper.get()
 
 #Asteptam sa se incarce cookie-ul

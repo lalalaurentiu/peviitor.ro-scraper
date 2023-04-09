@@ -1,20 +1,13 @@
 from scraper_peviitor import Scraper, Rules, ScraperSelenium, loadingData
 from selenium import webdriver
 
-from selenium.webdriver.chrome.options import Options
-
-#Setam optiunile pentru Chrome pentru a nu deschide fereastra
-options = Options()
-options.add_argument("--headless")
-options.add_argument("--disable-gpu")
-
 import json
 import uuid
 import time
 import os
 
 #Folosesc selenium deoarece joburile sunt incarcate prin ajax
-scraper = ScraperSelenium('https://cariere-decathlon.ro', webdriver.Chrome(options=options))
+scraper = ScraperSelenium('https://cariere-decathlon.ro')
 scraper.get()
 
 #Iau dom-ul randat de browser
@@ -40,7 +33,7 @@ for elemen in elements:
     title = link.text
 
     #Deschid link-ul jobului in browser
-    linkScrap = ScraperSelenium(link['href'], webdriver.Chrome(options=options))
+    linkScrap = ScraperSelenium(link['href'])
     linkScrap.get()
 
     #Iau dom-ul jobului si il pun in scraper

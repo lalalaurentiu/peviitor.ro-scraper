@@ -1,22 +1,13 @@
 from scraper_peviitor import ScraperSelenium, Scraper, Rules, loadingData
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-from selenium.webdriver.chrome.options import Options
 import os 
-import json
-
-#Setam optiunile pentru Chrome pentru a nu deschide fereastra
-options = Options()
-options.add_argument("--headless")
-options.add_argument("--disable-gpu")
-
 import json
 import time
 import uuid
 
 #Folosim selenium deoarece anchorele cu nu au atributul href
-scraper = ScraperSelenium("https://medicover.mingle.ro/en/apply", webdriver.Chrome(options=options))
+scraper = ScraperSelenium("https://medicover.mingle.ro/en/apply")
 scraper.get()
 
 #Caut toate anchorele cu clasa btn-apply

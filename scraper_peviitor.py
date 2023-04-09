@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 import json
+import platform
 
 
 
@@ -128,32 +129,25 @@ class Scraper:
         self._soup = BeautifulSoup(soup, "html.parser")
 
 
-
 class ScraperSelenium:
-    def __init__(self, url: str, driver: webdriver):
+    def __init__(self, url: str):
         """
         Constructorul clasei.
         :param url: adresa URL a paginii web pe care se va lucra
         :param driver: instanța webdriver utilizată pentru a automatiza browserul web
         """
-        self._url = url
-        self.driver = driver
-
-    @property
-    def url(self):
-        """
-        Proprietatea url pentru a accesa valoarea adresei URL.
-        """
-        return self._url
-
-    @url.setter
-    def url(self, url):
-        """
-        Setează valoarea adresei URL.
-        :param url: adresa URL pe care o vom seta
-        """
-        self._url = url
-
+        if platform.system() == 'Darwin':
+            print("running on macOS")
+            self.driver = webdriver.Chrome()
+        elif platform.system() == 'Linux':
+            print("running on linux")
+            options = webdriver.FirefoxOptions()
+            options.add_argument('--headless')
+            self.driver = webdriver.Firefox(options=options)
+        else:
+            raise Exception('Platform not supported')
+        self.url = url
+        
     def get(self):
         """
         Deschide adresa URL în browser.
